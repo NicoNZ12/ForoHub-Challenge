@@ -24,4 +24,22 @@ public class Usuario {
 
     @Column(unique = true, nullable = false)
     private String password;
+
+    public Usuario(RegistroUsuarioDTO usuarioDTO) {
+        this.nombre = usuarioDTO.nombre();
+        this.email = usuarioDTO.email();
+        this.password = usuarioDTO.password();
+    }
+
+    public void actualizar(ActualizarUsuarioDTO usuarioActualizar) {
+        if(usuarioActualizar.nombre() != null ){
+            this.nombre = usuarioActualizar.nombre();
+        }
+        if(usuarioActualizar.email() != null){
+            this.email = usuarioActualizar.email();
+        }
+        if(usuarioActualizar.password() != null){
+            this.password = usuarioActualizar.password();
+        }
+    }
 }
