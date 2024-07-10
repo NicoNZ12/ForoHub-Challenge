@@ -5,7 +5,6 @@ CREATE TABLE IF NOT EXISTS topicos(
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status ENUM("ACTIVO", "RESUELTO") NOT NULL,
     id_autor BIGINT NOT NULL,
-    id_curso BIGINT NOT NULL,
-    FOREIGN KEY (id_autor) REFERENCES usuarios(id),
-    FOREIGN KEY (id_curso) REFERENCES cursos(id)
+    curso VARCHAR(255) NOT NULL,
+    FOREIGN KEY (id_autor) REFERENCES usuarios(id)
 );

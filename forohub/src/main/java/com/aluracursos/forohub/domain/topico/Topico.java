@@ -1,6 +1,5 @@
 package com.aluracursos.forohub.domain.topico;
 
-import com.aluracursos.forohub.domain.curso.Curso;
 import com.aluracursos.forohub.domain.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -37,7 +36,5 @@ public class Topico {
     @JoinColumn(name = "id_autor", nullable = false)
     private Usuario autor;
 
-    @ManyToOne
-    @JoinColumn(name = "id_curso", nullable = false)
-    private Curso curso;
+    private String curso;
 }

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/forohub/src/main/resources/db/migration/V1__create-table-usuario.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/forohub/src/main/resources/db/migration/V2__create-table-curso.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/forohub/src/main/resources/db/migration/V3__create-table-topicos.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/forohub/src/main/resources/db/migration/V2__create-table-topicos.sql" dialect="GenericSQL" />
   </component>
 </project>
