@@ -5,4 +5,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TopicoRepository extends JpaRepository<Topico, Long> {
+    Boolean existsByTituloIgnoreCase(String titulo);
+
+    Boolean existsByMensajeIgnoreCase(String mensaje);
+
 }

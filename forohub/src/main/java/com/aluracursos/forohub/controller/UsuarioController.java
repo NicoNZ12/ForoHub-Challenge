@@ -4,7 +4,6 @@ import com.aluracursos.forohub.domain.usuario.ActualizarUsuarioDTO;
 import com.aluracursos.forohub.domain.usuario.RegistroUsuarioDTO;
 import com.aluracursos.forohub.domain.usuario.RespuestaUsuarioDTO;
 import com.aluracursos.forohub.domain.usuario.UsuarioService;
-import jakarta.transaction.TransactionScoped;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @ResponseBody
