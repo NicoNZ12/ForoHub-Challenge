@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS topicos(
     mensaje VARCHAR(255) NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status ENUM("ACTIVO", "RESUELTO") NOT NULL,
-    id_autor BIGINT NOT NULL,
+    id_autor BIGINT,
     curso VARCHAR(255) NOT NULL,
-    FOREIGN KEY (id_autor) REFERENCES usuarios(id)
+    FOREIGN KEY (id_autor) REFERENCES usuarios(id) ON DELETE SET NULL
 );

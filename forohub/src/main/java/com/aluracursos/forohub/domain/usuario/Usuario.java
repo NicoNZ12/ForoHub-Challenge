@@ -5,6 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Collection;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -12,7 +19,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(of = "id")
 @Entity(name = "Usuario")
 @Table(name = "usuarios")
-public class Usuario {
+public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,13 +32,13 @@ public class Usuario {
     @Column(unique = true, nullable = false)
     private String password;
 
-    public Usuario(RegistroUsuarioDTO usuarioDTO) {
+    public Usuario(RegistroUsuarioDTO usuarioDTO, PasswordEncoder encoder) {
         this.nombre = usuarioDTO.nombre();
         this.email = usuarioDTO.email();
-        this.password = usuarioDTO.password();
+        this.password = encoder.encode(usuarioDTO.password());
     }
 
-    public void actualizar(ActualizarUsuarioDTO usuarioActualizar) {
+    public void actualizar(ActualizarUsuarioDTO usuarioActualizar, PasswordEncoder encoder) {
         if(usuarioActualizar.nombre() != null ){
             this.nombre = usuarioActualizar.nombre();
         }
@@ -39,7 +46,43 @@ public class Usuario {
             this.email = usuarioActualizar.email();
         }
         if(usuarioActualizar.password() != null){
-            this.password = usuarioActualizar.password();
+            this.password = encoder.encode(usuarioActualizar.password());
         }
+    }
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public String getPassword(){
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
