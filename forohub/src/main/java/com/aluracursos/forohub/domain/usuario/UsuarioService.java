@@ -3,6 +3,7 @@ package com.aluracursos.forohub.domain.usuario;
 import com.aluracursos.forohub.infra.errores.ValidacionDeIntegridad;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -11,17 +12,19 @@ import java.util.Optional;
 @Service
 public class UsuarioService {
     private final UsuarioRepository repository;
+    private final PasswordEncoder encoder;
 
-    public UsuarioService(UsuarioRepository repository) {
+    public UsuarioService(UsuarioRepository repository, PasswordEncoder encoder) {
         this.repository = repository;
+        this.encoder = encoder;
     }
 
     public RespuestaUsuarioDTO guardarUsuario(RegistroUsuarioDTO usuarioDTO){
-        if(repository.findByEmail(usuarioDTO.email()).isPresent()){
+        if(repository.existsByEmail(usuarioDTO.email())){
             throw new ValidacionDeIntegridad("Ya existe un usuario asociado a ese correo.");
         }
 
-        Usuario usuario = repository.save(new Usuario(usuarioDTO));
+        Usuario usuario = repository.save(new Usuario(usuarioDTO, encoder));
         return new RespuestaUsuarioDTO(usuario.getId(), usuario.getNombre(), usuario.getEmail());
     }
 
@@ -32,10 +35,11 @@ public class UsuarioService {
 
     public RespuestaUsuarioDTO actualizarUsuario(ActualizarUsuarioDTO usuarioActualizar){
         Usuario usuario = repository.getReferenceById(usuarioActualizar.id());
-        if(usuario.getEmail().equals(repository.findByEmail(usuarioActualizar.email()))){
+        boolean emailEnUso = repository.existsByEmail(usuarioActualizar.email());
+        if (emailEnUso && !usuario.getEmail().equals(usuarioActualizar.email())) {
             throw new ValidacionDeIntegridad("El correo ya está asociado a otro usuario.");
         }
-        usuario.actualizar(usuarioActualizar);
+        usuario.actualizar(usuarioActualizar, encoder);
         return new RespuestaUsuarioDTO(usuario.getId(), usuario.getNombre(), usuario.getEmail());
     }
 

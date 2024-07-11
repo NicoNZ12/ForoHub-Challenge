@@ -36,7 +36,7 @@ public class Topico {
     private Status status;
 
     @ManyToOne
-    @JoinColumn(name = "id_autor", nullable = false)
+    @JoinColumn(name = "id_autor", nullable = true)
     private Usuario autor;
 
     private String curso;
