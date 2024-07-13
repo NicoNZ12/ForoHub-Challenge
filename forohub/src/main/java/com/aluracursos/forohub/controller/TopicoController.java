@@ -5,6 +5,7 @@ import com.aluracursos.forohub.domain.topico.CrearTopicoDTO;
 import com.aluracursos.forohub.domain.topico.RespuestaTopicoDTO;
 import com.aluracursos.forohub.domain.topico.TopicoService;
 import com.aluracursos.forohub.domain.usuario.RespuestaUsuarioDTO;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import java.net.URI;
 @RestController
 @ResponseBody
 @RequestMapping("/topicos")
+@SecurityRequirement(name = "bearer-key")
 public class TopicoController {
 
     private final TopicoService service;
