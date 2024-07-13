@@ -32,7 +32,10 @@ public class Usuario implements UserDetails {
     @Column(unique = true, nullable = false)
     private String password;
 
+    private boolean activo;
+
     public Usuario(RegistroUsuarioDTO usuarioDTO, PasswordEncoder encoder) {
+        this.activo = true;
         this.nombre = usuarioDTO.nombre();
         this.email = usuarioDTO.email();
         this.password = encoder.encode(usuarioDTO.password());

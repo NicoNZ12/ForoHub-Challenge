@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 public record RespuestaUsuarioDTO(
         Long id,
         String nombre,
-        String email
+        String email,
+        Boolean activo
 ) {
 }

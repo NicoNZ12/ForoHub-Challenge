@@ -4,6 +4,7 @@ import com.aluracursos.forohub.domain.usuario.ActualizarUsuarioDTO;
 import com.aluracursos.forohub.domain.usuario.RegistroUsuarioDTO;
 import com.aluracursos.forohub.domain.usuario.RespuestaUsuarioDTO;
 import com.aluracursos.forohub.domain.usuario.UsuarioService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import java.net.URI;
 @RestController
 @ResponseBody
 @RequestMapping("/usuarios")
+@SecurityRequirement(name = "bearer-key")
 public class UsuarioController {
 
     private final UsuarioService service;
@@ -63,7 +65,7 @@ public class UsuarioController {
     */
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity eliminarUsuario(@PathVariable Long id){
+    public ResponseEntity eliminarUsuario(@PathVariable Long id){ //No elimina al usuario de la bd,sino que cambia su propiedad activo de true a false
         service.eliminarUsuario(id);
         return ResponseEntity.noContent().build();
     }

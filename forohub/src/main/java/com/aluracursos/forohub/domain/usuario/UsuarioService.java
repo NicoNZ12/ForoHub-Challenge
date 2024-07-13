@@ -25,12 +25,12 @@ public class UsuarioService {
         }
 
         Usuario usuario = repository.save(new Usuario(usuarioDTO, encoder));
-        return new RespuestaUsuarioDTO(usuario.getId(), usuario.getNombre(), usuario.getEmail());
+        return new RespuestaUsuarioDTO(usuario.getId(), usuario.getNombre(), usuario.getEmail(), usuario.isActivo());
     }
 
     public Page<RespuestaUsuarioDTO> mostrarUsuarios(Pageable pageable){
         var usuarios = repository.findAll();
-        return repository.findAll(pageable).map(u -> new RespuestaUsuarioDTO(u.getId(), u.getNombre(), u.getEmail()));
+        return repository.findAll(pageable).map(u -> new RespuestaUsuarioDTO(u.getId(), u.getNombre(), u.getEmail(), u.isActivo()));
     }
 
     public RespuestaUsuarioDTO actualizarUsuario(ActualizarUsuarioDTO usuarioActualizar){
@@ -40,7 +40,7 @@ public class UsuarioService {
             throw new ValidacionDeIntegridad("El correo ya está asociado a otro usuario.");
         }
         usuario.actualizar(usuarioActualizar, encoder);
-        return new RespuestaUsuarioDTO(usuario.getId(), usuario.getNombre(), usuario.getEmail());
+        return new RespuestaUsuarioDTO(usuario.getId(), usuario.getNombre(), usuario.getEmail(), usuario.isActivo());
     }
 
     public void eliminarUsuario(Long id) {
@@ -48,7 +48,9 @@ public class UsuarioService {
         if (!usuario.isPresent()) {
             throw new ValidacionDeIntegridad("El usuario asociado al id no existe.");
         }
-        repository.delete(usuario.get());
+        Usuario usuarioEncontrado = usuario.get();
+        usuarioEncontrado.setActivo(false);
+        repository.save(usuarioEncontrado);
     }
 
 
@@ -57,6 +59,6 @@ public class UsuarioService {
         if (!usuario.isPresent()) {
             throw new ValidacionDeIntegridad("El usuario asociado al id no existe.");
         }
-        return new RespuestaUsuarioDTO(usuario.get().getId(), usuario.get().getNombre(), usuario.get().getEmail());
+        return new RespuestaUsuarioDTO(usuario.get().getId(), usuario.get().getNombre(), usuario.get().getEmail(), usuario.get().isActivo());
     }
 }
